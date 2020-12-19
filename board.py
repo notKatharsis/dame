@@ -18,7 +18,6 @@ class Board:
         self.draw_board()
     
     def draw_selected(self, j, i):
-        
         if i < 8 and i >= 0 and j < 8 and j >= 0:
             self.s.append(self.canvas.create_rectangle(j+self.u*j,i+self.u*i ,(j + 1)+self.u*(j+ 1),(i +1)+self.u*(i + 1),fill="#c9cbff",outline="#98acf8"))
             if self.board[i][j]:
@@ -26,9 +25,10 @@ class Board:
 
 
     def draw_board(self):
+        self.delete_selected()
         for i in range(self.n):
             for j in range(self.n):
-                if self.board[i][j]: self.canvas.create_oval(j+self.u*j+(self.u*0.05),i+self.u*i+(self.u*0.05),j+self.u*(j+1)-(self.u*0.05),i+self.u*(i+1)-(self.u*0.05),fill="#333D79" if self.board[i][j].get_player1() else "#A13941",outline="#333D79" if self.board[i][j].get_player1() else "#A13941")
+                if self.board[i][j]: self.s.append(self.canvas.create_oval(j+self.u*j+(self.u*0.05),i+self.u*i+(self.u*0.05),j+self.u*(j+1)-(self.u*0.05),i+self.u*(i+1)-(self.u*0.05),fill="#333D79" if self.board[i][j].get_player1() else "#A13941",outline="#333D79" if self.board[i][j].get_player1() else "#A13941"))
 
     def get_n(self):
         return self.n
@@ -45,5 +45,5 @@ class Board:
     def delete_selected(self):
         for m in self.s:
             self.canvas.delete(m)
-            self.s = []
+        self.s = []
 
