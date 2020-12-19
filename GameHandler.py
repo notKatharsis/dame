@@ -10,8 +10,6 @@ class GameHandler:
     def select(self, event, board):
 
         board_arr = board.get_board()
-
-        board.delete_selected()
         y, x = self.get_cell(event.x, event.y, board)
         select = self.selected
         if self.selected != None:
@@ -74,15 +72,10 @@ class GameHandler:
         
     def controls(self): return  
 
-    def get_cell(self,x,y, board, cell=None):
+    def get_cell(self, x, y, board):
         u = board.get_u()
-        for i in range(board.get_n()):
-            for j in range(board.get_n()):
-                if x>=j+u*j and y>=i+u*i and x<=j+u*(j+1) and y<=i+u*(i+1):
-                    cell = [i,j]
-                    break
-        return cell if cell else [-1,-1]
-
+        return (y-(y//u))//u,(x-(x//u))//u
+    
     def draw_diff(self): return
 
     def move_piece(self, piece, moveAt, board):
