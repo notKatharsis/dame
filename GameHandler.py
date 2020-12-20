@@ -2,7 +2,7 @@ from board import Board
 
 class GameHandler:
     def __init__(self):
-        self.current_player = 1
+        self.current_player = True
         self.selected = None
         self.white_count = 0
         self.black_count = 0
@@ -53,22 +53,22 @@ class GameHandler:
         if board_arr[y][x] != 0:
 
             try:        
-                if board_arr[y-1][x-1] == 0 and board_arr[y][x].get_player1() == True:       #ist frei links oben und ist spieler 1
+                if board_arr[y-1][x-1] == 0 and board_arr[y][x].get_player1() == True and self.current_player == True:       #ist frei links oben und ist spieler 1
                     self.selected.append([x-1, y-1])
             except: pass
 
             try:
-                if board_arr[y+1][x-1] == 0 and board_arr[y][x].get_player1() == False:
+                if board_arr[y+1][x-1] == 0 and board_arr[y][x].get_player1() == False and self.current_player == False:
                     self.selected.append([x-1,y+1])
             except: pass
 
             try:
-                if board_arr[y-1][x+1] == 0 and board_arr[y][x].get_player1() == True:       #ist frei rechts oben und ist spieler 1
+                if board_arr[y-1][x+1] == 0 and board_arr[y][x].get_player1() == True and self.current_player == True:       #ist frei rechts oben und ist spieler 1
                     self.selected.append([x+1, y-1])
             except: pass
 
             try:
-                if board_arr[y+1][x+1] == 0 and board_arr[y][x].get_player1() == False:
+                if board_arr[y+1][x+1] == 0 and board_arr[y][x].get_player1() == False and self.current_player == False:
                     self.selected.append([x+1, y+1])
             except: pass    
         
@@ -102,6 +102,9 @@ class GameHandler:
         board.draw_board()
 
         self.selected = None
+
+        self.current_player = not self.current_player
+        return
         
 
     def check_moves(self): return
