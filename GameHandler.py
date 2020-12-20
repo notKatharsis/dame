@@ -11,6 +11,13 @@ class GameHandler:
 
         board_arr = board.get_board()
         y, x = self.get_cell(event.x, event.y, board)
+        
+        if self.selected != None and x == self.selected[0][0] and y == self.selected[0][1]:
+            self.selected = None
+            board.delete_selected()
+            board.draw_board()
+            return
+
         select = self.selected
         if self.selected != None:
             for coords in self.selected:
@@ -65,9 +72,11 @@ class GameHandler:
                     self.selected.append([x+1, y+1])
             except: pass    
         
-
-        for coords in self.selected:
-            board.draw_selected(coords[0], coords[1])
+        if self.selected != None:
+            for coords in self.selected:
+                board.draw_selected(coords[0], coords[1])
+        
+        return
         
         
     def controls(self): return  
@@ -89,10 +98,10 @@ class GameHandler:
         print(piece.get_coords())
         board.set_new_coords([newY, newX], piece)
         board.set_new_coords([origin[0], origin[1]], 0)
-
+        
         board.draw_board()
 
-        self.selected = []
+        self.selected = None
         
 
     def check_moves(self): return
