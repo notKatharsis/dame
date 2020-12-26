@@ -49,41 +49,44 @@ class GameHandler:
         #    board.draw_selected(arr[0], arr[1])                #vlt später nützzlich
 
         
-
-        # self.selected hat als 3. Index, ob es ein piece genommen hat oder nicht, 0 ist nein 1 ist ja
+        beatable = False
         
         if board_arr[y][x] != 0:
 
             try:        
-                if board_arr[y-1][x-1] == 0 and board_arr[y][x].get_player1() == True and self.current_player == True:       #ist frei links oben und ist spieler 1
+                if board_arr[y-1][x-1] == 0 and board_arr[y][x].get_player1() == True and self.current_player == True and beatable == False:       #ist frei links oben und ist spieler 1
                     self.selected.append([x-1, y-1])
                 elif board_arr[y-1][x-1] != 0 and board_arr[y][x].get_player1() == True and self.current_player == True:
                     if board_arr[y-2][x-2] == 0 and board_arr[y-1][x-1].get_player1() == False:
-                        self.selected.append([x-2,y-2])
+                        self.selected = [[x,y],[x-2,y-2]]
+                        beatable = True
             except: pass
 
             try:
-                if board_arr[y+1][x-1] == 0 and board_arr[y][x].get_player1() == False and self.current_player == False:       #frei spieler 2
+                if board_arr[y+1][x-1] == 0 and board_arr[y][x].get_player1() == False and self.current_player == False and beatable == False:       #frei spieler 2
                     self.selected.append([x-1,y+1])
                 elif board_arr[y+1][x-1] != 0 and board_arr[y][x].get_player1() == False and self.current_player == False:
                     if board_arr[y+2][x-2] == 0 and board_arr[y+1][x-1].get_player1() == True:
-                        self.selected.append([x-2, y+2])
+                        self.selected = [[x,y],[x-2, y+2]]
+                        beatable = True
             except: pass
 
             try:
-                if board_arr[y-1][x+1] == 0 and board_arr[y][x].get_player1() == True and self.current_player == True:       #ist frei rechts oben und ist spieler 1
+                if board_arr[y-1][x+1] == 0 and board_arr[y][x].get_player1() == True and self.current_player == True and beatable == False:       #ist frei rechts oben und ist spieler 1
                     self.selected.append([x+1, y-1])
                 elif board_arr[y-1][x+1] != 0 and board_arr[y][x].get_player1() == True and self.current_player == True:
                     if board_arr[y-2][x+2] == 0 and board_arr[y-1][x+1].get_player1() == False:
-                        self.selected.append([x+2, y-2])
+                        self.selected = [[x,y],[x+2, y-2]]
+                        beatable = True
             except: pass
 
             try:
-                if board_arr[y+1][x+1] == 0 and board_arr[y][x].get_player1() == False and self.current_player == False:       #frei spieler 2
+                if board_arr[y+1][x+1] == 0 and board_arr[y][x].get_player1() == False and self.current_player == False and beatable == False:       #frei spieler 2
                     self.selected.append([x+1, y+1])
                 elif board_arr[y+1][x+1] != 0 and board_arr[y][x].get_player1() == False and self.current_player == False:
                     if board_arr[y+2][x+2] == 0 and board_arr[y+1][x+1].get_player1() == True:
-                        self.selected.append([x+2, y+2])
+                        self.selected = [[x,y],[x+2, y+2]]
+                        beatable = True
             except: pass
         
         if self.selected != None:
