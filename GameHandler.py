@@ -54,9 +54,32 @@ class GameHandler:
         if board_arr[y][x] != 0:
             
             if board_arr[y][x].get_d():
-                
                 try:
-                    if  board_arr[y][x].get_player1() == True and self.current_player == True:
+                    if x> 0 and y > 0 and board_arr[y-1][x-1] != 0 and board_arr[y][x].get_player1() == True and self.current_player == True:
+                        if board_arr[y-2][x-2] == 0 and board_arr[y-1][x-1].get_player1() == False:
+                            self.selected.append([x-2,y-2])
+                            beatable = True
+                except: pass
+                try:
+                    if x> 0 and y < 7 and board_arr[y+1][x-1] != 0 and board_arr[y][x].get_player1() == True and self.current_player == True:
+                        if board_arr[y+2][x-2] == 0 and board_arr[y+1][x-1].get_player1() == False:
+                            self.selected.append([x-2,y+2])
+                            beatable = True
+                except: pass
+                try:
+                    if x < 7 and y > 0 and board_arr[y-1][x+1] != 0 and board_arr[y][x].get_player1() == True and self.current_player == True:
+                        if board_arr[y-2][x+2] == 0 and board_arr[y-1][x+1].get_player1() == False:
+                            self.selected.append([x+2,y-2])
+                            beatable = True
+                except: pass
+                try:
+                    if x < 7 and y < 7 and board_arr[y+1][x+1] != 0 and board_arr[y][x].get_player1() == True and self.current_player == True:
+                        if board_arr[y+2][x+2] == 0 and board_arr[y+1][x+1].get_player1() == False:
+                            self.selected.append([x+2,y+2])
+                            beatable = True
+                except: pass
+                try:
+                    if board_arr[y][x].get_player1() == True and self.current_player == True and beatable == False:
                         temp = self.check_piece(x + 1,y + 1, board_arr, [], +1, +1)
                         for l in temp:
                             self.selected.append(l)
@@ -73,7 +96,34 @@ class GameHandler:
                 except Exception as e: print(e)
 
                 try:
-                    if  board_arr[y][x].get_player1() == False and self.current_player == False:
+                    
+                    if x> 0 and y > 0 and board_arr[y-1][x-1] != 0 and board_arr[y][x].get_player1() == False and self.current_player == False:
+                        if board_arr[y-2][x-2] == 0 and board_arr[y-1][x-1].get_player1() == True:
+                            self.selected.append([x-2,y-2])
+                            beatable = True
+                    
+                except: pass
+                try:
+
+                    if x> 0 and y < 7 and board_arr[y+1][x-1] != 0 and board_arr[y][x].get_player1() == False and self.current_player == False:
+                        if board_arr[y+2][x-2] == 0 and board_arr[y+1][x-1].get_player1() == True:
+                            self.selected.append([x-2,y+2])
+                            beatable = True
+                except: pass
+                try:
+                    if x < 7 and y > 0 and board_arr[y-1][x+1] != 0 and board_arr[y][x].get_player1() == False and self.current_player == False:
+                        if board_arr[y-2][x+2] == 0 and board_arr[y-1][x+1].get_player1() == True:
+                            self.selected.append([x+2,y-2])
+                            beatable = True
+                except: pass
+                try:    
+                    if x < 7 and y < 7 and board_arr[y+1][x+1] != 0 and board_arr[y][x].get_player1() == False and self.current_player == False:
+                        if board_arr[y+2][x+2] == 0 and board_arr[y+1][x+1].get_player1() == True:
+                            self.selected.append([x+2,y+2])
+                            beatable = True
+                except: pass
+                try:
+                    if  board_arr[y][x].get_player1() == False and self.current_player == False and beatable == False:
                         temp = self.check_piece(x + 1,y + 1, board_arr, [], +1, +1)
                         for l in temp:
                             self.selected.append(l)
@@ -86,7 +136,7 @@ class GameHandler:
                         temp = self.check_piece(x - 1,y - 1, board_arr, [], -1, -1)
                         for l in temp:
                             self.selected.append(l)
-                        
+                    
                 except Exception as e: print(e)
 
             else:    
