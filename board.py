@@ -4,11 +4,11 @@ import random
 from figur import *
 
 class Board:
-    def __init__(self,n,u):
+    def __init__(self,n,u, window, randabstand, schachbrett, canvashoheMalschachbrett):
         self.n,self.u,self.board,self.s = n,u,[[0]*n for i in range(n)],[]
-        self.window = tk.Tk()
-        self.canvas = tk.Canvas(self.window,width=n+n*u,height=n+n*u,bg="#f3f3f3",highlightthickness=0,cursor="hand1")
-        self.canvas.pack()
+        #self.window = tk.Tk()
+        self.canvas = tk.Canvas(window,width=n+n*u + 200000,height=n+n*u + 200000,bg="#f3f3f3",highlightthickness=0,cursor="hand1")
+        self.canvas.place(x=randabstand,y=randabstand,relheight=schachbrett, width=canvashoheMalschachbrett)
         for i in range(n):
             for j in range(n):
                 if (i+j)%2==1:
