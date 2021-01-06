@@ -13,13 +13,34 @@ def shutdown(): #Beenden des Spiels
     root.destroy()
     
 def reset(): #Spiel soll neugetartet werden
-    pass #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
+    gameHandler.reset(8, 80, board)
+    counter = gameHandler.counter   #Anzahl der gesamten Spielzüge; muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<[ERGÄNZEN]
+    bluepoints = gameHandler.blue_count #muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
+    redpoints = gameHandler.red_count #muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
+
+    if counter%2 == 0:
+        player = "BLUE"
+        farbe='#b1f8fe'
+    elif counter%2 == 1:
+        player = "RED"
+        farbe='#ff785b'
+
+    label1.config(text="Player {} is playing".format(player), bg='{}'.format(farbe))
+    label2.config(text="Player Blue:    {} points".format(bluepoints))
+    label3.config(text="Player Red:    {} points".format(redpoints))
 
 def surrender():
+    counter = gameHandler.counter
+    if counter%2 == 0:
+        player = "BLUE"
+        farbe='#b1f8fe'
+    elif counter%2 == 1:
+        player = "RED"
+        farbe='#ff785b'
     label4.config(text = "Player {} has surrendered".format(player), bg ='#cccccc')
     
 ##########################
-canvashohe = 700 #Breite = 1.5Höhe[1.0 für Feld| 0.5 für Seitenmenü]
+canvashohe = 668 #Breite = 1.5Höhe[1.0 für Feld| 0.5 für Seitenmenü]
 root = Tk()
 root.geometry('{}x{}'.format(str(canvashohe*3/2)[:-2],canvashohe))
 #root.resizable(0, 0)
@@ -43,53 +64,89 @@ board = board.Board(8, 80, root, randabstand, schachbrett, canvashohe*schachbret
 #t.insert(END, 'This is an example text.')
 #t.place(x = randabstand, y = randabstand, relheight =schachbrett, width = canvashohe*schachbrett)
 
+counter = gameHandler.counter   #Anzahl der gesamten Spielzüge; muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<[ERGÄNZEN]
+bluepoints = gameHandler.blue_count #muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
+redpoints = gameHandler.red_count #muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
 
-counter = 15   #Anzahl der gesamten Spielzüge; muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<[ERGÄNZEN]
-bluepoints = 5 #muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
-redpoints = 20 #muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
+player = "BLUE"
+farbe='#b1f8fe'
 
-if counter%2 == 0:
-    player = "BLUE"
-    farbe='#b1f8fe'
-elif counter%2 == 1:
-    player = "RED"
-    farbe='#ff785b'
-
-#SpielerZug Anzeige    
 label1= Label(text="Player {} is playing".format(player), bg='{}'.format(farbe))
-label1.place(x = canvashohe*schachbrett+2*randabstand, y= randabstand, width = canvashohe/2-randabstand, relheight = 0.08)
-
-#BLAU Punkteanzeige
-label2= Label(text="Player Blue::    {} points".format(bluepoints), bg='#aed6dc')
-label2.place(x = canvashohe*schachbrett+2*randabstand, y= randabstand+(buttonhohe+randabstand), width = canvashohe/2-randabstand, relheight = 0.08)
-
-#ROT Punkteanzeige
-label3= Label(text="Player Red:    {}points".format(redpoints), bg='#ff9a8d')
-label3.place(x = canvashohe*schachbrett+2*randabstand, y= randabstand+2*(buttonhohe+randabstand), width = canvashohe/2-randabstand, relheight = 0.08)
-
-#Gegner hat aufgegeben - Nachricht
+label2= Label(text="Player Blue:    {} points".format(bluepoints), bg='#aed6dc')
+label3= Label(text="Player Red:    {} points".format(redpoints), bg='#ff9a8d')
 label4= Label(bg='#4a536b')
-label4.place(x = canvashohe*schachbrett+2*randabstand, y= randabstand+3*(buttonhohe+randabstand), width = canvashohe/2-randabstand, relheight = 0.08)
 
-
-
-#Aufgeben Button
 button1 = Button(text="surrender", bg="#BBBBBB",fg="black", command=surrender)
-button1.place(x = canvashohe*schachbrett+2*randabstand, y= canvashohe-3*(buttonhohe+randabstand) - 20, width = canvashohe/2-randabstand, relheight = 0.08) #row = 0, column = 0, sticky = W, pady = 2
-
-#Neustart Button
-button4 = Button(text="reset", bg="#BBBBBB",fg="black", command=reset) #command reset fehlt noch (siehe oben unter COMMANDS)
-button4.place(x = canvashohe*schachbrett+2*randabstand, y= canvashohe-2*(buttonhohe+randabstand) - 20, width = canvashohe/2-randabstand, relheight = 0.08)
-
-#Spiel Beenden Button
+button4 = Button(text="reset", bg="#BBBBBB",fg="black", command=reset)
 button5 = Button(text="Exit Game", bg="#BBBBBB",fg="black", command=shutdown)
-button5.place(x = canvashohe*schachbrett+2*randabstand, y= canvashohe-(buttonhohe+randabstand) - 20, width = canvashohe/2-randabstand, relheight = 0.08)
 
-#----------Widgets----------#
+def init():
+    
+    if counter%2 == 0:
+        player = "BLUE"
+        farbe='#b1f8fe'
+    elif counter%2 == 1:
+        player = "RED"
+        farbe='#ff785b'
 
+    #SpielerZug Anzeige    
+    
+    label1.place(x = canvashohe*schachbrett+2*randabstand, y= randabstand, width = canvashohe/2-randabstand, relheight = 0.08)
+
+    #BLAU Punkteanzeige
+    
+    label2.place(x = canvashohe*schachbrett+2*randabstand, y= randabstand+(buttonhohe+randabstand), width = canvashohe/2-randabstand, relheight = 0.08)
+
+    #ROT Punkteanzeige
+    
+    label3.place(x = canvashohe*schachbrett+2*randabstand, y= randabstand+2*(buttonhohe+randabstand), width = canvashohe/2-randabstand, relheight = 0.08)
+
+    #Gegner hat aufgegeben - Nachricht
+    
+    label4.place(x = canvashohe*schachbrett+2*randabstand, y= randabstand+3*(buttonhohe+randabstand), width = canvashohe/2-randabstand, relheight = 0.08)
+
+
+
+    #Aufgeben Button
+    
+    button1.place(x = canvashohe*schachbrett+2*randabstand, y= canvashohe-3*(buttonhohe+randabstand) - 20, width = canvashohe/2-randabstand, relheight = 0.08) #row = 0, column = 0, sticky = W, pady = 2
+
+    #Neustart Button
+    
+    button4.place(x = canvashohe*schachbrett+2*randabstand, y= canvashohe-2*(buttonhohe+randabstand) - 20, width = canvashohe/2-randabstand, relheight = 0.08)
+
+    #Spiel Beenden Button
+    
+    button5.place(x = canvashohe*schachbrett+2*randabstand, y= canvashohe-(buttonhohe+randabstand) - 20, width = canvashohe/2-randabstand, relheight = 0.08)
+
+    #----------Widgets----------#
+
+def update():
+    counter = gameHandler.counter   #Anzahl der gesamten Spielzüge; muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<[ERGÄNZEN]
+    bluepoints = gameHandler.blue_count #muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
+    redpoints = gameHandler.red_count #muss nach jedem Zug aktualisiert werden <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<[ERGÄNZEN]
+
+    if bluepoints >= 12:
+        label4.config(text = "Player BLUE WINS!", bg ='#cccccc')
+    elif redpoints >= 12:
+        label4.config(text = "Player RED WINS!", bg ='#cccccc')
+    else:
+        if counter%2 == 0:
+            player = "BLUE"
+            farbe='#b1f8fe'
+        elif counter%2 == 1:
+            player = "RED"
+            farbe='#ff785b'
+        label1.config(text="Player {} is playing".format(player), bg='{}'.format(farbe))
+        label2.config(text="Player Blue:    {} points".format(bluepoints))
+        label3.config(text="Player Red:    {} points".format(redpoints))
+
+
+init()
 
 def onClick(event):
     gameHandler.select(event, board)
+    update()
 
 board.canvas.bind("<Button-1>", lambda event: onClick(event))
 

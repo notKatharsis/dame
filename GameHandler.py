@@ -1,11 +1,13 @@
 from board import Board
 
+
 class GameHandler:
     def __init__(self):
         self.current_player = True
         self.selected = None
-        self.white_count = 0
-        self.black_count = 0
+        self.red_count = 0
+        self.blue_count = 0
+        self.counter = 0
 
     def select(self, event, board):
 
@@ -200,15 +202,31 @@ class GameHandler:
 
         if dx <= -2 and dy <= -2:
             board.set_new_coords([origin[0] - 1, origin[1] - 1], 0)
+            if piece.get_player1():
+                self.blue_count += 1
+            else:
+                self.red_count += 1
         
         if dx <= -2 and dy >= 2:
             board.set_new_coords([origin[0] + 1, origin[1] - 1], 0)
+            if piece.get_player1():
+                self.blue_count += 1
+            else:
+                self.red_count += 1
 
         if dx >= 2 and dy <= -2:
             board.set_new_coords([origin[0] - 1, origin[1] + 1], 0)
-        
+            if piece.get_player1():
+                self.blue_count += 1
+            else:
+                self.red_count += 1
+
         if dx >= 2 and dy >= 2:
             board.set_new_coords([origin[0] + 1, origin[1] + 1], 0)
+            if piece.get_player1():
+                self.blue_count += 1
+            else:
+                self.red_count += 1
 
         newX = origin[1] + dx
         newY = origin[0] + dy
@@ -219,12 +237,15 @@ class GameHandler:
         
         board.draw_board()
 
+
         self.selected = None
 
         if self.check_dame([newX, newY], self.current_player):
             piece.set_d(True)
 
         self.current_player = not self.current_player
+        self.counter += 1
+        
         return
     
     
@@ -252,3 +273,12 @@ class GameHandler:
             x += dx
 
         return arr
+
+    def reset(self, n, u, board):
+        self.current_player = True
+        self.selected = None
+        self.red_count = 0
+        self.blue_count = 0
+        self.counter = 0
+
+        board.reset(n, u)
